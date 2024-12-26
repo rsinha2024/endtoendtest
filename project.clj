@@ -12,30 +12,10 @@
                  [com.zaxxer/HikariCP "3.4.5"]  ;; Connection pool (optional but recommended)
                  [com.amazonaws/aws-java-sdk-dynamodb "1.12.132"] ;; AWS DynamoDB SDK
                  [amazonica "0.3.151"] ;; Amazonica library
-
-
-
-                 ;;
-                 ;;
-                 ;;
-                 [io.cucumber/cucumber-java "7.11.0"]    ;; Cucumber Java dependency
-                 [io.cucumber/cucumber-spring "7.11.0"]  ;; Optional, for integration with Spring (if needed)
-                 ;; https://mvnrepository.com/artifact/io.cucumber/cucumber-junit-platform-engine
-                 [io.cucumber/cucumber-junit-platform-engine "7.14.1"]
-                 ;; https://mvnrepository.com/artifact/io.cucumber/cucumber-junit
-                 ;; https://mvnrepository.com/artifact/io.cucumber/cucumber-junit
-                 [io.cucumber/cucumber-junit "7.20.1"]
-                 ;; https://mvnrepository.com/artifact/io.cucumber/cucumber-picocontainer
-                 [io.cucumber/cucumber-picocontainer "7.20.1"]
-
-
-                 ;; https://mvnrepository.com/artifact/io.cucumber/cucumber-bom
-                 [io.cucumber/cucumber-bom "7.14.0" :extension "pom"]
-
-                 ;; https://mvnrepository.com/artifact/org.clojure/test.check
-                 [org.clojure/test.check "1.1.1"]
-                 [org.junit.jupiter/junit-jupiter-api "5.7.2"]  ;; Add JUnit 5 if it's not included
-                 [org.junit.jupiter/junit-jupiter-engine "5.7.2"]
+                 ;; https://mvnrepository.com/artifact/org.clojure/data.json
+                 [org.clojure/data.json "2.5.1"]
+                 ;; https://mvnrepository.com/artifact/clojure.java-time/clojure.java-time
+                 [clojure.java-time/clojure.java-time "1.4.3"]
 
                  ]
 

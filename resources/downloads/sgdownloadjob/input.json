@@ -1,0 +1,79 @@
+[
+  {
+    "date-time": "2024-12-16T10:15:00",
+    "account-number": "DWEB000074",
+    "isin": "US08862E1091",
+    "ticker-symbol": "BYND US",
+    "units": "5000",
+    "price": "4.52",
+    "lending-rate": "8428",
+    "collateral-type": "Non-Cash",
+    "trade-id": "1"
+  },
+  {
+    "date-time": "2024-12-16T10:20:00",
+    "account-number": "DWEB000074",
+    "isin": "US08862E1091",
+    "ticker-symbol": "BYND US",
+    "units": "4500",
+    "price": "4.52",
+    "lending-rate": "8428",
+    "collateral-type": "Non-Cash",
+    "trade-id": "2"
+  },
+  {
+    "date-time": "2024-12-16T10:25:00",
+    "account-number": "DWEB000074",
+    "isin": "US08862E1091",
+    "ticker-symbol": "AAPL US",
+    "units": "4500",
+    "price": "4.52",
+    "lending-rate": "8428",
+    "collateral-type": "Non-Cash",
+    "trade-id": "3"
+  },
+  {
+    "date-time": "2024-12-16T10:30:00",
+    "account-number": "DWEB000074",
+    "isin": "US08862E1092",
+    "ticker-symbol": "SPY US",
+    "units": "4500",
+    "price": "4.52",
+    "lending-rate": "8428",
+    "collateral-type": "Non-Cash",
+    "trade-id": "4"
+  },
+  {
+    "date-time": "2024-12-16T10:35:00",
+    "account-number": "DWEB000074",
+    "isin": "US08862E1091",
+    "ticker-symbol": "BYND US",
+    "units": "4500",
+    "price": "4.52",
+    "lending-rate": "8428",
+    "collateral-type": "Non-Cash",
+    "trade-id": "5"
+  },
+  {
+    "date-time": "2024-12-16T10:40:00",
+    "account-number": "DWEB000074",
+    "isin": "US08862E1092",
+    "ticker-symbol": "SPY US",
+    "units": "10",
+    "price": "4.52",
+    "lending-rate": "8428",
+    "collateral-type": "Non-Cash",
+    "trade-id": "6"
+  },
+  {
+    "date-time": "2024-12-16T10:45:00",
+    "account-number": "DWEB000074",
+    "isin": "US08862E1092",
+    "ticker-symbol": "SPY US",
+    "units": "20",
+    "price": "4.52",
+    "lending-rate": "8428",
+    "collateral-type": "Non-Cash",
+    "trade-id": "7"
+  }
+]
