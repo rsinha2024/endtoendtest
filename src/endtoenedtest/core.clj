@@ -3,6 +3,8 @@
             [cheshire.core :as cheshire]
             [api.db :as db]
             [api.s3 :as s3]
+            [api.dynamodb :as dynamo]
+            [jobs.sgdownload :as sgdownload]
             )
   (:gen-class))
 (def body {:partners ["free"]
@@ -23,6 +25,8 @@
   (println "End to end started!")
   ; (process-trade)
   ;(db/query-db)
-  (s3/upload-test-file)
+  ;(s3/upload-test-file)
+  (sgdownload/setup "2024-12-24")
+  ;(println (db/key-exists? "07baca37-5612-4ec6-ae8d-a03f12bd3ff53232"))
   (println "End to end done!")
   )
