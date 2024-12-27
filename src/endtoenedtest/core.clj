@@ -21,16 +21,16 @@
       (println "Request failed with status:" (:status response)))))
 
 (defn -main
-  "I don't do a whole lot ... yet."
+  "EndtoEnd tests."
   [& args]
   (println "End to end started!")
   ; (process-trade)
   ;(db/query-db)
   ;(db/insert_into_bod_positions1)
   ;(s3/upload-test-file)
-  ; (sgdownload/setup "2024-12-24")
+   (sgdownload/setup "2024-12-24")
   ;(println (db/key-exists? "07baca37-5612-4ec6-ae8d-a03f12bd3ff53232"))
   ;(println (dynamo/scan-for-user-id "FREE"))
-  (sgdownloadgen/generate_file "./resources/downloads/sgdownloadjob/input.json" "20241224.113937")
+  ;(println (sgdownloadgen/generate_file "./resources/downloads/sgdownloadjob/input.json" "20241224.113937") )
   (println "End to end done!")
   )

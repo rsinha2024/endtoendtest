@@ -1,6 +1,5 @@
 [
   {
-    "date-time": "2024-12-16T10:15:00",
     "account-number": "DWEB000074",
     "isin": "US08862E1091",
     "ticker-symbol": "BYND US",
@@ -11,7 +10,6 @@
     "trade-id": "1"
   },
   {
-    "date-time": "2024-12-16T10:20:00",
     "account-number": "DWEB000074",
     "isin": "US08862E1091",
     "ticker-symbol": "BYND US",
@@ -22,7 +20,6 @@
     "trade-id": "2"
   },
   {
-    "date-time": "2024-12-16T10:25:00",
     "account-number": "DWEB000074",
     "isin": "US08862E1091",
     "ticker-symbol": "AAPL US",
@@ -33,7 +30,6 @@
     "trade-id": "3"
   },
   {
-    "date-time": "2024-12-16T10:30:00",
     "account-number": "DWEB000074",
     "isin": "US08862E1092",
     "ticker-symbol": "SPY US",
@@ -44,7 +40,6 @@
     "trade-id": "4"
   },
   {
-    "date-time": "2024-12-16T10:35:00",
     "account-number": "DWEB000074",
     "isin": "US08862E1091",
     "ticker-symbol": "BYND US",
@@ -55,7 +50,6 @@
     "trade-id": "5"
   },
   {
-    "date-time": "2024-12-16T10:40:00",
     "account-number": "DWEB000074",
     "isin": "US08862E1092",
     "ticker-symbol": "SPY US",
@@ -66,7 +60,6 @@
     "trade-id": "6"
   },
   {
-    "date-time": "2024-12-16T10:45:00",
     "account-number": "DWEB000074",
     "isin": "US08862E1092",
     "ticker-symbol": "SPY US",

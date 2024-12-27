@@ -3,8 +3,8 @@
             [cheshire.core :as cheshire]))
 
 ;; Define the API URL and headers
-(def url "https://agent-lending-service-posttrade-drivewealth-com.apps.rosadev0.r01r.p1.openshiftapps.com/api/v1/inbound/files/process")
-
+;(def url "https://agent-lending-service-posttrade-drivewealth-com.apps.rosadev0.r01r.p1.openshiftapps.com/api/v1/inbound/files/process")
+(def url "http://localhost:3004/api/v1/inbound/files/process")
 (def headers {"accept" "application/json"
               "Content-Type" "application/json"})
 

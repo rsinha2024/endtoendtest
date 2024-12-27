@@ -2,11 +2,10 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
             [clojure.data.json :as json]
-            [java-time :as jt]
             )
-  (:import (java.time LocalDateTime)
+  (:import (java.time LocalDate)
            (java.time.format DateTimeFormatter)))
-
+(def trade_file_name "DW.TRADE_INSTRUCTION.CONTINUOUS")
 ;; CSV header as a vector of column names
 (def header ["Date-Time" "Booking Type" "Account Number" "Security Name" "ISIN" "Ticker/ Symbol"
              "Ext Instrument Id" "Trade Date" "Collateral Date" "Settlement Date" "End Date"
@@ -50,23 +49,29 @@
 ;; Function to generate a formatted date-time string for the filename
 (defn generate-file-name
   [business-date]
-  (let [formatter (DateTimeFormatter/ofPattern "yyyyMMdd.HHmmss")  ;; Pattern for parsing and formatting
-        parsed-date (LocalDateTime/parse business-date formatter)]  ;; Parse the input date
+  (let [formatter (DateTimeFormatter/ofPattern "yyyy-MM-dd")  ;; Pattern for parsing and formatting
+        parsed-date (LocalDate/parse business-date formatter)]  ;; Parse the input date
     (.format parsed-date formatter)))  ;; Format back to string
+    ;;
+(defn replace-date-time
+  [data new-date-time]
+  (map #(assoc % :date-time new-date-time) data))
 
 ;; Main function to read input data from file and generate CSV output
 (defn generate_file
   [file_path date]
   (let [input-data (read-json file_path)
         business-date date ;; Example business date (adjust as necessary)
-
+        m-input-data (replace-date-time input-data business-date)
         ;; Generate the file name based on the business date
         file-name (str "resources/output/DW.TRADE_INSTRUCTION.CONTINUOUS." (generate-file-name business-date) ".csv")
 
         ;; Generate rows for the CSV based on the input data
-        rows (map generate-row input-data)
+        rows (map generate-row  m-input-data)
         data (cons header rows)] ;; Add header to the rows
 
     ;; Write data to the CSV file in the specific directory
-    (write-csv file-name data)))
+    (write-csv file-name data)
+    file-name
+     ))
 
