@@ -1,16 +1,18 @@
 (ns api.db
-  (:require [clojure.java.jdbc :as jdbc])
+  (:require [clojure.java.jdbc :as jdbc]
+            [util.properties :as p]
+            )
   (:import (java.time LocalDate)
            (java.sql Date)))
 
 
 (def db-spec
-  {:dbtype "postgres"
-   :host "dwdev-aurora-babelfish-instance-1.csefnakly5ig.us-east-1.rds.amazonaws.com"
-   :port 5432
-   :dbname "post_trade"
-   :user "cost_basis_user"
-   :password "@sDfgKJ7g^%g2ug"})
+  {:dbtype (p/prop "DB_TYPE")
+   :host (p/prop "DB_HOST")
+   :port (p/prop "DB_PORT")
+   :dbname (p/prop "DB_NAME")
+   :user (p/prop "DB_USER")
+   :password (p/prop "DB_PASSWORD")})
 
 (defn query-db []
   (jdbc/with-db-connection [conn db-spec]

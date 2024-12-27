@@ -2,10 +2,12 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
             [clojure.data.json :as json]
+            [util.properties :as p]
             )
   (:import (java.time LocalDate)
+           (java.time LocalTime)
            (java.time.format DateTimeFormatter)))
-(def trade_file_name "DW.TRADE_INSTRUCTION.CONTINUOUS")
+(def trade_file_name (p/prop "SGDOWNLOAD_FILE_FORMAT"))
 ;; CSV header as a vector of column names
 (def header ["Date-Time" "Booking Type" "Account Number" "Security Name" "ISIN" "Ticker/ Symbol"
              "Ext Instrument Id" "Trade Date" "Collateral Date" "Settlement Date" "End Date"
@@ -31,10 +33,6 @@
   (let [file (io/file filename)]
     (io/make-parents file)  ;; Ensure parent directories exist
     (with-open [w (io/writer file)]
-      ;; Write header first
-      ;  (.write w (str/join "," header))
-      ;(.newLine w)
-
       ;; Write rows from the data
       (doseq [row data]
         (.write w (str/join "," row))
@@ -45,14 +43,29 @@
   [filename]
   (with-open [r (io/reader filename)]
     (json/read r :key-fn keyword)))  ;; Pass the reader directly
+    ;;
+(defn remove-resources-prefix [path]
+  (str/replace path #"^resources/" ""))
 
-;; Function to generate a formatted date-time string for the filename
+(defn current-time-hhmmss []
+  (let [formatter (DateTimeFormatter/ofPattern "HHmmss")  ;; Define the format
+        current-time (LocalTime/now)]  ;; Get the current time
+    (.format current-time formatter)))  ;; Format the current time
+    ;;
+(defn convert-date-format [input-date]
+  (let [input-formatter (DateTimeFormatter/ofPattern "yyyy-MM-dd")    ;; Input format
+        output-formatter (DateTimeFormatter/ofPattern "yyyyMMdd")      ;; Output format
+        parsed-date (LocalDate/parse input-date input-formatter)]       ;; Parse the input date
+    (.format parsed-date output-formatter)))                           ;; Format to output format
+
+(defn extract-filename [file-path]
+  (let [file-name (last (str/split file-path #"/"))]  ;; Split by "/" and take the last part
+    file-name))
+;; Function to generate a formatted date string for the filename eg DW.TRADE_INSTRUCTION.CONTINUOUS.20241223.152551.csv
 (defn generate-file-name
   [business-date]
-  (let [formatter (DateTimeFormatter/ofPattern "yyyy-MM-dd")  ;; Pattern for parsing and formatting
-        parsed-date (LocalDate/parse business-date formatter)]  ;; Parse the input date
-    (.format parsed-date formatter)))  ;; Format back to string
-    ;;
+  (str (p/prop "SGDOWNLOAD_PATH") "/" (p/prop "SGDOWNLOAD_FILE_FORMAT") "." (convert-date-format business-date) "." (current-time-hhmmss)  ".csv"))
+;;
 (defn replace-date-time
   [data new-date-time]
   (map #(assoc % :date-time new-date-time) data))
@@ -64,7 +77,7 @@
         business-date date ;; Example business date (adjust as necessary)
         m-input-data (replace-date-time input-data business-date)
         ;; Generate the file name based on the business date
-        file-name (str "resources/output/DW.TRADE_INSTRUCTION.CONTINUOUS." (generate-file-name business-date) ".csv")
+        file-name (generate-file-name business-date)
 
         ;; Generate rows for the CSV based on the input data
         rows (map generate-row  m-input-data)

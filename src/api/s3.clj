@@ -1,6 +1,7 @@
 (ns api.s3
   (:require [amazonica.aws.s3 :as s3]
-            [clojure.java.io :as io])
+            [clojure.java.io :as io]
+            [util.properties :as p])
   (:import (java.io File)))
 
 (defn upload-file
