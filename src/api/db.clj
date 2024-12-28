@@ -79,15 +79,13 @@
 
 ;; Insert bod-positions-record-1 into the database
 ;(insert-bod-positions-record bod-positions-record-1)
-(defn insert_into_bod_positions1 []
-  (insert-bod-positions-record bod-positions-record-1)
-  )
+
 ;; Creating and inserting the second BodPositionsRecord
 (def bod-positions-record-2
   {:wlpid       "FREE"
    :accountNo   "DWEB000074"
    :accountType "C"                          ;; Enum value as string
-   :symbol "BYND_FREE"
+   :symbol "SPY"
    :cusip "594918104"
    :quantity (BigDecimal. "50000.00000000")  ;; BigDecimal for quantity
    :tradeDate (LocalDate/parse "2024-09-25")  ;; Parse LocalDate from string
@@ -140,4 +138,14 @@
   (insert-bod-positions-record (replace-key-value bod-positions-record-2 :tradeDate trade_date))
   (insert-bod-positions-record (replace-key-value bod-positions-record-3 :tradeDate trade_date))
   (insert-bod-positions-record (replace-key-value bod-positions-record-4 :tradeDate trade_date))
-  (insert-bod-positions-record (replace-key-value bod-positions-record-5 :tradeDate trade_date)))
+  (insert-bod-positions-record (replace-key-value bod-positions-record-5 :tradeDate trade_date))
+  )
+
+(defn execute-query-and-compare [query expected-row-count]
+  (jdbc/with-db-connection [conn db-spec]
+                           (let [results (jdbc/query conn [query])        ;; Execute query
+                                 row-count (count results)]                ;; Count the rows
+                             (println "Returned rows:" ( :count (first results)))
+                             (if (= ( :count (first results)) expected-row-count)         ;; Compare to expected count
+                               (println "Test passed: Row count matches expected value.")
+                               (println "Test failed: Row count does not match expected value.")))))

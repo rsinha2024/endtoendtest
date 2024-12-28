@@ -20,10 +20,29 @@
       (with-open [rdr (io/reader resource)]
         (slurp rdr))
       (println "Resource not found!"))))
+(defn extract-trade-ids [data]
+  "Extract trade ids from a sequence of vectors at position 18."
+  (map #(nth % 17) data))  ;; nth gets the value at index 18
+
+(defn generate-sql-query [data]
+  "Generate an SQL query with trade_id values from a sequence of vectors."
+  (let [trade-ids (extract-trade-ids data)
+        formatted-ids (clojure.string/join "," (map #(str "'" % "'") trade-ids))]   ;; Format IDs as a comma-separated string
+    (str "SELECT * FROM agent_lending.agent_loan_requests WHERE trade_id IN (" formatted-ids ")")))
+
+;; Example data: sequence of vectors, where trade-id is at index 18
+(def trade-data [
+                 ["2024-12-27" "FOP Delivery" "DWEB000074" "Beyond Meat Inc" "US08862E1091" "BYND US" "" "2024-12-27" "2024-12-27" "2024-12-27" "" 5000 "GBP" 4.52 8428 "Non-Cash" 100 "L2433-V1" "" "" "MSINT" "Morgan Stanley International" "MLILGB3LESF" "" "" "12B-34567" "Merill Lynch NY" "" "DTCYID" 5198 "" "" "DTCYUS33XXX"]
+                 ["2024-12-27" "FOP Delivery" "DWEB000074" "Beyond Meat Inc" "US08862E1091" "BYND US" "" "2024-12-27" "2024-12-27" "2024-12-27" "" 4500 "GBP" 4.52 8428 "Non-Cash" 100 "L2433-V0" "" "" "MSINT" "Morgan Stanley International" "MLILGB3LESF" "" "" "12B-34567" "Merill Lynch NY" "" "DTCYID" 51980 "" "" "DTCYUS33XXX"]
+                 ["2024-12-27" "FOP Delivery" "DWEB000074" "Beyond Meat Inc" "US08862E1091" "AAPL US" "" "2024-12-27" "2024-12-27" "2024-12-27" "" 4500 "GBP" 4.52 8428 "Non-Cash" 100 "L2433-V2" "" "" "MSINT" "Morgan Stanley International" "MLILGB3LESF" "" "" "12B-34567" "Merill Lynch NY" "" "DTCYID" 0 "" "" "DTCYUS33XXX"]
+                 ])
+
+;; Generate the SQL query
+
+
 (deftest first
   (testing "uppercase map"
-    (read-resource-file)
-    (gen/generate_file (p/prop "SGDOWNLOAD_INPUT_JSON") "2024-12-27" )
+    (println(generate-sql-query trade-data))
     (println "file name=" (gen/generate-file-name "2024-12-23"))
     (println "formatteddate=" (gen/convert-date-format "2024-12-23"))
     (println "current time=" (gen/current-time-hhmmss))

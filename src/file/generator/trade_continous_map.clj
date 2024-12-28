@@ -23,7 +23,7 @@
   [{:keys [date-time account-number isin ticker-symbol units price lending-rate collateral-type trade-id]}]
   ;; Return a CSV row with the dynamic data (date-time, account-number, isin, ticker-symbol)
   [date-time "FOP Delivery" account-number "Beyond Meat Inc" isin ticker-symbol "" date-time
-   date-time date-time "" units "GBP" price lending-rate collateral-type "100" (str "L2433-V" trade-id) "" "" "MSINT"
+   date-time date-time "" units "GBP" price lending-rate collateral-type "100" (str "L1" (rand-int 100000) trade-id) "" "" "MSINT"
    "Morgan Stanley International" "MLILGB3LESF" "" "" "12B-34567" "Merill Lynch NY" "" "DTCYID" (str trade-id)
    "" "" "DTCYUS33XXX" ""])
 
@@ -85,6 +85,7 @@
 
     ;; Write data to the CSV file in the specific directory
     (write-csv file-name data)
-    file-name
-     ))
+    {:file-name file-name
+     :data data}
+    ))
 

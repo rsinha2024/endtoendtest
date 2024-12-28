@@ -6,6 +6,7 @@
             [api.s3 :as s3]
             [util.properties :as p]
             [api.client :as client]
+            [clojure.java.jdbc :as jdbc]
             ))
 
 
@@ -38,13 +39,16 @@
           (println "Inserting into bod positions")
           (db/create-bod-positions trade_date)
           )
-        (let [s3file (sgdownloadgen/generate_file (p/prop "SGDOWNLOAD_INPUT_JSON") trade_date )]
+        (let [s3map (sgdownloadgen/generate_file (p/prop "SGDOWNLOAD_INPUT_JSON") trade_date )
+              s3file (:file-name s3map)
+              ]
           (println "Generated file" s3file)
           ;SGDOWNLOAD_FILE_FORMAT
           (s3/upload-file (p/prop "BUCKET_NAME") (sgdownloadgen/remove-resources-prefix  s3file)    (str "freetrade/inbound/" (sgdownloadgen/extract-filename s3file)))
           (println "Uploaded file!!!")
           { :user_id user_id
-           :s3file s3file
+           :s3file (:file-name s3map)
+           :data (:data s3map)
            })
 
 
@@ -62,11 +66,28 @@
               :tradeDate trade_date}]
     (process-trade body)
     ))
-(defn validate []
+(defn extract-trade-ids [data]
+  "Extract trade ids from a sequence of vectors at position 18."
+  (map #(nth % 17) data))  ;; nth gets the value at index 18
+
+(defn generate-sql-query [data]
+  "Generate an SQL query with trade_id values from a sequence of vectors."
+  (let [trade-ids (extract-trade-ids data)
+        formatted-ids (clojure.string/join "," (map #(str "'" % "'") trade-ids))]   ;; Format IDs as a comma-separated string
+    (str "SELECT count(*) FROM agent_lending.agent_loan_requests WHERE trade_id IN (" formatted-ids ")")))
+
+;; Function to execute SQL query and compare number of rows returned to 7
+
+(defn validate [data]
+  (println "Validating..." data)
+  (Thread/sleep 10000)
+  (let [sql-query (generate-sql-query data)]
+       (db/execute-query-and-compare sql-query 7)
+    )
   )
 (defn workflow [trade_date]
-  (let [{:keys [user_id s3file] } (setup trade_date)]
+  (let [{:keys [user_id s3file data] } (setup trade_date)]
     (trigger-job user_id trade_date)
-    (validate)))
+    (validate data)))
 
 
