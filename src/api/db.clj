@@ -30,6 +30,18 @@
                      ON CONFLICT (name) DO NOTHING"
                                            key value])))
 
+(defn replace-key-value
+  [m key new-value]
+  (assoc m key new-value))
+
+(defn positions-exist [trade-date created-by]
+  (jdbc/with-db-connection [conn db-spec]
+                           (let [query "SELECT COUNT(*) FROM agent_lending.bod_positions WHERE trade_date = CAST(? AS DATE) AND created_by = ?"
+                                 result (jdbc/query conn [query trade-date created-by])
+                                 ]
+                               (>  (:count (first result))  1))
+                                         ))
+
 ;; Function to check if a config key exists
 (defn key-exists? [key]
   (jdbc/with-db-connection [conn db-spec]
@@ -56,8 +68,8 @@
 
 ;; Creating and inserting the first BodPositionsRecord
 (def bod-positions-record-1
-  {:wlpid "freetrade"
-   :accountNo "FTDWACC132"
+  {:wlpid "FREE"
+   :accountNo "DWEB000074"
    :accountType "C"                          ;; Enum value as string
    :symbol "BYND"
    :cusip "037833100"
@@ -72,10 +84,10 @@
   )
 ;; Creating and inserting the second BodPositionsRecord
 (def bod-positions-record-2
-  {:wlpid       "freetrade"
-   :accountNo   "FTDWACC156"
+  {:wlpid       "FREE"
+   :accountNo   "DWEB000074"
    :accountType "C"                          ;; Enum value as string
-   :symbol "BYND"
+   :symbol "BYND_FREE"
    :cusip "594918104"
    :quantity (BigDecimal. "50000.00000000")  ;; BigDecimal for quantity
    :tradeDate (LocalDate/parse "2024-09-25")  ;; Parse LocalDate from string
@@ -83,10 +95,10 @@
 
 ;; Creating and inserting the first BodPositionsRecord
 (def bod-positions-record-3
-  {:wlpid "freetrade"
-   :accountNo "FTDWACC124"
+  {:wlpid "FREE"
+   :accountNo "DWEB000074"
    :accountType "C"                          ;; Enum value as string
-   :symbol "BYND"
+   :symbol "MSFT"
    :cusip "594918104"
    :quantity (BigDecimal. "50.00000000")   ;; BigDecimal for quantity
    :tradeDate (LocalDate/parse "2024-09-10")  ;; Parse LocalDate from string
@@ -97,8 +109,8 @@
 
 ;; Creating and inserting the second BodPositionsRecord
 (def bod-positions-record-4
-  {:wlpid "freetrade"
-   :accountNo "FTDWACC124"
+  {:wlpid "FREE"
+   :accountNo "DWEB000074"
    :accountType "C"                          ;; Enum value as string
    :symbol "AAPL"
    :cusip "594918104"
@@ -111,8 +123,8 @@
 
 ;; Creating and inserting the third BodPositionsRecord
 (def bod-positions-record-5
-  {:wlpid "freetrade"
-   :accountNo "FTDWACC555"
+  {:wlpid "FREE"
+   :accountNo "DWEB000074"
    :accountType "C"                          ;; Enum value as string
    :symbol "HDFC"
    :cusip "394918105"
@@ -120,5 +132,12 @@
    :tradeDate (LocalDate/parse "2024-09-10")  ;; Parse LocalDate from string
    :createdBy "end2end"})
 
+
 ;; Insert bod-positions-record-3 into the database
 ;(insert-bod-positions-record bod-positions-record-5)
+(defn create-bod-positions [trade_date]
+  (insert-bod-positions-record (replace-key-value bod-positions-record-1 :tradeDate trade_date))
+  (insert-bod-positions-record (replace-key-value bod-positions-record-2 :tradeDate trade_date))
+  (insert-bod-positions-record (replace-key-value bod-positions-record-3 :tradeDate trade_date))
+  (insert-bod-positions-record (replace-key-value bod-positions-record-4 :tradeDate trade_date))
+  (insert-bod-positions-record (replace-key-value bod-positions-record-5 :tradeDate trade_date)))

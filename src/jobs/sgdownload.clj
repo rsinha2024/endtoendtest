@@ -34,8 +34,11 @@
           (println "Inserting into config" user_id)
           (db/insert-config user_id (generate-json "FREE"))
         )
-        (let [s3file (sgdownloadgen/generate_file (p/prop "SGDOWNLOAD_INPUT_JSON") trade_date )
-              ]
+        (when-not (db/positions-exist trade_date "end2end")
+          (println "Inserting into bod positions")
+          (db/create-bod-positions trade_date)
+          )
+        (let [s3file (sgdownloadgen/generate_file (p/prop "SGDOWNLOAD_INPUT_JSON") trade_date )]
           (println "Generated file" s3file)
           ;SGDOWNLOAD_FILE_FORMAT
           (s3/upload-file (p/prop "BUCKET_NAME") (sgdownloadgen/remove-resources-prefix  s3file)    (str "freetrade/inbound/" (sgdownloadgen/extract-filename s3file)))

@@ -25,7 +25,7 @@
   [date-time "FOP Delivery" account-number "Beyond Meat Inc" isin ticker-symbol "" date-time
    date-time date-time "" units "GBP" price lending-rate collateral-type "100" (str "L2433-V" trade-id) "" "" "MSINT"
    "Morgan Stanley International" "MLILGB3LESF" "" "" "12B-34567" "Merill Lynch NY" "" "DTCYID" (str trade-id)
-   "" "" "DTCYUS33XXX"])
+   "" "" "DTCYUS33XXX" ""])
 
 ;; Function to write the data to a CSV file
 (defn write-csv
