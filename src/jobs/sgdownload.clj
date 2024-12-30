@@ -9,6 +9,9 @@
             [clojure.java.jdbc :as jdbc]
             ))
 
+;; Parse the JSON string into a Clojure map
+(defn parsed-response [json-str] (cheshire.core/parse-string json-str true))  ;; `true` for keyword keys
+
 
 ;; Function to process the request and handle the response
 (defn process-trade [body]
@@ -16,7 +19,8 @@
     (if (= 200 (:status response))  ;; Check if the request was successful (status 200)
       (do
         (println "Request succeeded!")
-        (println "Response body:" (client/parse-response response)))  ;; Parse and print the response body
+        (println "Response body:" (client/parse-response response))
+        ( :jobId (parsed-response (:body response))))  ;; Parse and print the response body
       (println "Request failed with status:" (:status response)))))
 
 (defn generate-json [base]
@@ -64,7 +68,7 @@
 (defn trigger-job [user_id trade_date]
   (let [body {:partners [user_id]
               :tradeDate trade_date}]
-    (process-trade body)
+     (process-trade body)
     ))
 (defn extract-trade-ids [data]
   "Extract trade ids from a sequence of vectors at position 18."
@@ -78,16 +82,16 @@
 
 ;; Function to execute SQL query and compare number of rows returned to 7
 
-(defn validate [data]
-  (println "Validating..." data)
+(defn validate [data job_id]
+  (println "Validating..." data "for job_id=" job_id)
   (Thread/sleep 10000)
   (let [sql-query (generate-sql-query data)]
-       (db/execute-query-and-compare sql-query 7)
-    )
+       (db/execute-query-and-compare sql-query 7))
+  (client/poll-job-status job_id 20000 1000)
   )
 (defn workflow [trade_date]
-  (let [{:keys [user_id s3file data] } (setup trade_date)]
-    (trigger-job user_id trade_date)
-    (validate data)))
+  (let [{:keys [user_id s3file data] } (setup trade_date)
+        job_id (trigger-job user_id trade_date)]
+    (validate data job_id)))
 
 
