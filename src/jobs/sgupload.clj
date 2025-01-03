@@ -1,6 +1,6 @@
 (ns jobs.sgupload
   (:require [api.dynamodb :as dynamo]
-            [api.db :as db]
+            [api.sgupload_db :as db]
             [cheshire.core :as cheshire]
             [file.generator.trade-continous-map :as sgdownloadgen]
             [api.s3 :as s3]
