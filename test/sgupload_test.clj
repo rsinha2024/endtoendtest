@@ -4,8 +4,8 @@
 
   (def steps
        [
-        (step :Given "have some"
-              (fn have_some[state] (println "Given step blahhahahah") state))
+        (step :Given "have some more"
+              (fn have_some1[state] (println "Given step blahhahahah") state))
 
         (step :Given "not sent"
               (fn not_sent[state ] (println "And step") state))
