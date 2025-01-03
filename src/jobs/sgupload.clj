@@ -56,3 +56,6 @@
         job_id (trigger-job user_id trade_date)]
     (validate job_id)))
 
+(defn check-unprocessed [param1]
+  )
+

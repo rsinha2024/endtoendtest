@@ -16,7 +16,7 @@
                  [org.clojure/data.json "2.5.1"]
                  ;; https://mvnrepository.com/artifact/clojure.java-time/clojure.java-time
                  [clojure.java-time/clojure.java-time "1.4.3"]
-
+                 [net.clojars.danielmiladinov/burpless "0.1.0"] ;; Add Burpless dependency
 
                  ]
 
@@ -24,4 +24,5 @@
   :main ^:skip-aot endtoenedtest.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all
-                       :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}})
+                       :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}}
+  :plugins [[lein-midje "3.2"]])
