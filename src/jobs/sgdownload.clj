@@ -6,7 +6,7 @@
             [api.s3 :as s3]
             [util.properties :as p]
             [api.client :as client]
-            [clojure.java.jdbc :as jdbc]
+
             ))
 
 ;; Parse the JSON string into a Clojure map
