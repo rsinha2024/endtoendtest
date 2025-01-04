@@ -17,6 +17,7 @@
   "EndtoEnd tests."
   [& args]
   (println "End to end started!")
+  ;(sgupload_db/delete-sample-records)
   ;(sgupload_db/insert-sample-records "07baca37-5612-4ec6-ae8d-a03f12bd3ff53232" "2024-12-27" )
   (sgupload_db/get-transactions-from-db)
   ; (dag/extract-dag-run-details "Agent_Lending_Processing_Pipeline")

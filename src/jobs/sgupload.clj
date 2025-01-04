@@ -54,7 +54,8 @@
 (defn workflow [trade_date]
   (let [{:keys [user_id] } (setup trade_date)
         job_id (trigger-job user_id trade_date)]
-    (validate job_id)))
+        {:job-id job_id}
+    ))
 
 (defn check-unprocessed [param1]
   )
