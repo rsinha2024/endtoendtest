@@ -2,7 +2,7 @@
   (:require [api.dynamodb :as dynamo]
             [api.db :as db]
             [cheshire.core :as cheshire]
-            [file.generator.daily-accrual :as sgdownloadgen]
+            [file.generator.daily-accrual :as filegen]
             [api.s3 :as s3]
             [util.properties :as p]
             [api.client :as client]
@@ -39,11 +39,7 @@
           (println "Inserting into config" user_id)
           (db/insert-config user_id (generate-json "FREE"))
         )
-        (when-not (db/positions-exist trade_date "end2end")
-          (println "Inserting into bod positions")
-          (db/create-bod-positions trade_date)
-          )
-        (let [s3map (sgdownloadgen/generate_file (p/prop "SGDOWNLOAD_INPUT_JSON") trade_date )
+        (let [s3map (filegen/generate_file (p/prop "SGDOWNLOAD_INPUT_JSON") trade_date )
               s3file (:file-name s3map)
               ]
           (println "Generated file" s3file)
