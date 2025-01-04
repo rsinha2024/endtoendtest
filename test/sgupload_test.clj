@@ -1,21 +1,23 @@
 (ns sgupload_test
-      (:require [clojure.test :refer [deftest is]]
-                [burpless :refer [run-cucumber step]]
-                [api.sgupload_db :as sgupload_db]
-                [api.client :as client]
-                [jobs.sgupload :as sgupload]))
+  (:require [api.dynamodb :as dynamo]
+            [clojure.test :refer [deftest is]]
+            [burpless :refer [run-cucumber step]]
+            [api.sgupload_db :as sgupload_db]
+            [api.client :as client]
+            [jobs.sgupload :as sgupload]))
 
   (def steps
        [
         (step :Given "some transactions in agent_loan_requests table in settled, rejected or cancelled status"
               (fn some_transactions_in_agent_loan_requests_table_in_settled_rejected_or_cancelled_status [state ]
                 (println "In some_transactions_in_agent_loan_requests_table_in_settled_rejected_or_cancelled_status having state " state)
+                (let [user_id (dynamo/scan-for-user-id "FREE")]
                 (sgupload_db/delete-sample-records)
-                (sgupload_db/insert-sample-records "07baca37-5612-4ec6-ae8d-a03f12bd3ff53232" "2024-12-27" )
+                (sgupload_db/insert-sample-records user_id "2024-12-27" )
                 (let [transactions (sgupload_db/get-transactions-from-db)]
                   (is (pos? (count transactions)) "No transactions found")
                   transactions
-                 )))
+                 ))))
 
 
         (step :Given "in not sent status"

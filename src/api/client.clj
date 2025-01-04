@@ -61,6 +61,18 @@
             (Thread/sleep interval)    ;; Sleep for the specified interval (in ms)
             (recur))                   ;; Recur to continue polling
 
+          (= status "STARTED")
+          (do
+            (println "Current Job Status: " status)
+            (Thread/sleep interval)    ;; Sleep for the specified interval (in ms)
+            (recur))                   ;; Recur to continue polling
+
+          (= status "STARTING")
+          (do
+            (println "Current Job Status: " status)
+            (Thread/sleep interval)    ;; Sleep for the specified interval (in ms)
+            (recur))
+
           ;; Stop polling if we get an unknown status
           :else
           (do
