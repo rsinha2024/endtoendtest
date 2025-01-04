@@ -57,6 +57,4 @@
         {:job-id job_id}
     ))
 
-(defn check-unprocessed [param1]
-  )
 
