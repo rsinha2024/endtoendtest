@@ -9,8 +9,7 @@
        [(step :Given "A daily accrual file in the format ACCRUALS.DAILY.yyyymmdd.hhmmss.csv"
               (fn a_daily_accrual_file_in_the_format_accruals_daily_yyyymmdd_hhmmss_csv [state ]
                 (println "In a_daily_accrual_file_in* method")
-                (da/setup "2024-12-27")
-                ))
+                (da/setup "2024-12-27")))
 
         (step :Given "Uploaded to the s3 folder  S3 bucket that stores the partners sftp files,env.drivewealth.sftp\\/freetrade\\/inbound"
               (fn uploaded_to_the_s3_folder_s3_bucket_that_stores_the_partners_sftp_files_env_drivewealth_sftp_freetrade_inbound [state ]

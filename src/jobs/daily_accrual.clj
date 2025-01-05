@@ -44,8 +44,8 @@
               ]
           (println "Generated file" s3file)
           ;SGDOWNLOAD_FILE_FORMAT
-          (s3/upload-file (p/prop "BUCKET_NAME") (sgdownloadgen/remove-resources-prefix  s3file)    (str "freetrade/inbound/" (sgdownloadgen/extract-filename s3file)))
-          (println "Uploaded file!!!")
+          ;(s3/upload-file (p/prop "BUCKET_NAME") (sgdownloadgen/remove-resources-prefix  s3file)    (str "freetrade/inbound/" (sgdownloadgen/extract-filename s3file)))
+          ;(println "Uploaded file!!!")
           { :user_id user_id
            :s3file (:file-name s3map)
            :data (:data s3map)

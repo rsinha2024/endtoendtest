@@ -17,6 +17,7 @@
                  ;; https://mvnrepository.com/artifact/clojure.java-time/clojure.java-time
                  [clojure.java-time/clojure.java-time "1.4.3"]
                  [net.clojars.danielmiladinov/burpless "0.1.0"] ;; Add Burpless dependency
+                 [org.apache.poi/poi-ooxml "5.2.3"]
 
                  ]
 
