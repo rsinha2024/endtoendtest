@@ -5,21 +5,34 @@
             [file.generator.daily-accrual :as filegen]
             [api.s3 :as s3]
             [util.properties :as p]
-            [api.client :as client]
+            [clj-http.client :as httpclient]
 
             ))
+(def url (str  ( p/prop "BASE_URL") "/api/v1/eod/daily-accrual"))
+(def headers {"accept"       "application/json"
+              "Content-Type" "application/json"})
 
+;; Function to send POST request with JSON payload
+(defn send-post-request [body]
+  (let [response (httpclient/post url
+                                  {:headers headers
+                                   :body    (cheshire/generate-string body)})] ;; Convert body to JSON string
+    response))
+
+;; Function to parse the response (if needed)
+(defn parse-response [response]
+  (cheshire/parse-string (:body response) true))
 ;; Parse the JSON string into a Clojure map
 (defn parsed-response [json-str] (cheshire.core/parse-string json-str true))  ;; `true` for keyword keys
 
 
 ;; Function to process the request and handle the response
 (defn process-trade [body]
-  (let [response (client/send-post-request body)]  ;; Call the send-post-request function from the api.client module
+  (let [response (send-post-request body)]  ;; Call the send-post-request function from the api.client module
     (if (= 200 (:status response))  ;; Check if the request was successful (status 200)
       (do
         (println "Request succeeded!")
-        (println "Response body:" (client/parse-response response))
+        (println "Response body:" (parse-response response))
         ( :jobId (parsed-response (:body response))))  ;; Parse and print the response body
       (println "Request failed with status:" (:status response)))))
 
@@ -39,13 +52,13 @@
           (println "Inserting into config" user_id)
           (db/insert-config user_id (generate-json "FREE"))
         )
-        (let [s3map (filegen/generate_file (p/prop "SGDOWNLOAD_INPUT_JSON") trade_date )
+        (let [s3map (filegen/generate_file  trade_date )
               s3file (:file-name s3map)
               ]
           (println "Generated file" s3file)
           ;SGDOWNLOAD_FILE_FORMAT
-          ;(s3/upload-file (p/prop "BUCKET_NAME") (sgdownloadgen/remove-resources-prefix  s3file)    (str "freetrade/inbound/" (sgdownloadgen/extract-filename s3file)))
-          ;(println "Uploaded file!!!")
+          (s3/upload-file (p/prop "BUCKET_NAME") (filegen/remove-resources-prefix  s3file)    (str "freetrade/inbound/" (filegen/extract-filename s3file)))
+          (println "Uploaded file!!!")
           { :user_id user_id
            :s3file (:file-name s3map)
            :data (:data s3map)
@@ -66,15 +79,6 @@
               :tradeDate trade_date}]
      (process-trade body)
     ))
-(defn extract-trade-ids [data]
-  "Extract trade ids from a sequence of vectors at position 18."
-  (map #(nth % 17) data))  ;; nth gets the value at index 18
-
-(defn generate-sql-query [data]
-  "Generate an SQL query with trade_id values from a sequence of vectors."
-  (let [trade-ids (extract-trade-ids data)
-        formatted-ids (clojure.string/join "," (map #(str "'" % "'") trade-ids))]   ;; Format IDs as a comma-separated string
-    (str "SELECT count(*) FROM agent_lending.agent_loan_requests WHERE trade_id IN (" formatted-ids ")")))
 
 ;; Function to execute SQL query and compare number of rows returned to 7
 

@@ -31,7 +31,7 @@
 ;; Function to generate a formatted date string for the filename eg DW.TRADE_INSTRUCTION.CONTINUOUS.20241223.152551.csv
 (defn generate-file-name
   [business-date]
-  (str (p/prop "SGDOWNLOAD_PATH") "/" (p/prop "SGDOWNLOAD_FILE_FORMAT") "." (convert-date-format business-date) "." (current-time-hhmmss)  ".csv"))
+  (str (p/prop "DAILY_ACCRUAL_PATH") "/" (p/prop "DAILY_ACCRUAL_FILE_FORMAT") "." (convert-date-format business-date) "." (current-time-hhmmss)  ".xlsx"))
 
 
 (defn generate-sample-data []
@@ -60,22 +60,28 @@
     (let [sheet (.createSheet workbook "Loans")]
 
       ;; Create header row
-      (let [header (first data)
+      (let [header (first data)  ;; Get the first row for headers
             header-row (.createRow sheet 0)]
-        (doseq [col-idx (range (count header))]
-          (let [cell (.createCell header-row col-idx)]
-            (.setCellValue cell (name (key (nth header col-idx))))))
+        (doseq [key (keys header)]
+          (let [cell (.createCell header-row (get (map-indexed vector (keys header)) key 0))] ; Get index of each key in the header map
+            (.setCellValue cell (name key)))) ; Set the header value as string
 
         ;; Add data rows
         (doseq [i (range (count data))]
           (let [row-data (nth data i)
                 row (.createRow sheet (inc i))]
-            (doseq [col-idx (range (count row-data))]
-              (let [cell (.createCell row col-idx)
-                    value (val (nth row-data col-idx))]
+            (doseq [[col-idx value] (map-indexed vector (vals row-data))]
+              (let [cell (.createCell row col-idx)]
                 (.setCellValue cell (str value)))))
 
           ;; Write to file
           (with-open [out (FileOutputStream. file-path)]
             (.write workbook out)))))))
 
+(defn generate_file [trade_date]
+  (let [sample-data (generate-sample-data)
+        file-name (generate-file-name trade_date)]
+    (write-to-xlsx sample-data file-name)
+    (println "Excel file generated: " file-name)
+    {:file-name file-name
+     :data sample-data}))
