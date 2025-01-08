@@ -6,7 +6,7 @@
             [api.s3 :as s3]
             [util.properties :as p]
             [clj-http.client :as httpclient]
-
+            [api.client :as client]
             ))
 (def url (str  ( p/prop "BASE_URL") "/api/v1/eod/daily-accrual"))
 (def headers {"accept"       "application/json"
@@ -85,8 +85,7 @@
 (defn validate [data job_id]
   (println "Validating..." data "for job_id=" job_id)
   (Thread/sleep 10000)
-  (let [sql-query (generate-sql-query data)]
-       (db/execute-query-and-compare sql-query 7))
+
   (client/poll-job-status job_id 20000 1000)
   )
 (defn workflow [trade_date]

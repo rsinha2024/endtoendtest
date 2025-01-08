@@ -27,7 +27,7 @@
   ;(db/query-db)
   ;(db/insert_into_bod_positions1)
   ;(s3/upload-test-file)
-  ;(sgdownload/workflow "2024-12-27")
+  ; (sgdownload/workflow "2024-12-27")
   ;(sgupload/workflow "2024-12-27")
   ;(println (api/get-job-status 10521))
   ;(println (db/key-exists? "07baca37-5612-4ec6-ae8d-a03f12bd3ff53232"))
