@@ -18,7 +18,7 @@
   "EndtoEnd tests."
   [& args]
   (println "End to end started!")
-  (dafilegen/generate_file "2024-12-27")
+  ;(dafilegen/generate_file "2024-12-27")
   ;(sgupload_db/delete-sample-records)
   ;(sgupload_db/insert-sample-records "07baca37-5612-4ec6-ae8d-a03f12bd3ff53232" "2024-12-27" )
   ;(sgupload_db/get-transactions-from-db)
@@ -26,7 +26,7 @@
   ; (process-trade)
   ;(db/query-db)
   ;(db/insert_into_bod_positions1)
-  ;(s3/upload-test-file)
+  (s3/upload-test-file)
   ; (sgdownload/workflow "2024-12-27")
   ;(sgupload/workflow "2024-12-27")
   ;(println (api/get-job-status 10521))
