@@ -1,8 +1,11 @@
 (ns api.dynamodb
-       (:require [amazonica.aws.dynamodbv2 :as dynamodb]))
+       (:require [amazonica.aws.dynamodbv2 :as dynamodb]
+                 [util.properties :as p]))
 
-
-  (defn scan-for-user-id [wlpid]
+(defn scan-for-user-id [wlpid]
+  (p/prop "USER_ID")
+  )
+  (defn scan-for-user-id1 [wlpid]
         (let [table-name "bo.partnerProfiles"
               request {:table-name table-name
                        :filter-expression "wlpID = :wlpid"

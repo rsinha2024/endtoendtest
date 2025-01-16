@@ -3,6 +3,7 @@
             [cheshire.core :as cheshire]
             [api.db :as db]
             [api.sgupload_db :as sgupload_db]
+            [api.accrual_db :as accrual_db]
             [dag.trigger :as dag]
             [api.s3 :as s3]
             [api.dynamodb :as dynamo]
@@ -26,7 +27,7 @@
   ; (process-trade)
   ;(db/query-db)
   ;(db/insert_into_bod_positions1)
-  (s3/upload-test-file)
+  ; (s3/upload-test-file)
   ; (sgdownload/workflow "2024-12-27")
   ;(sgupload/workflow "2024-12-27")
   ;(println (api/get-job-status 10521))

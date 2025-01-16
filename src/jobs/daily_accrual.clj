@@ -7,6 +7,7 @@
             [util.properties :as p]
             [clj-http.client :as httpclient]
             [api.client :as client]
+            [api.accrual_db :as accrualdb]
             ))
 (def url (str  ( p/prop "BASE_URL") "/api/v1/eod/daily-accrual"))
 (def headers {"accept"       "application/json"
