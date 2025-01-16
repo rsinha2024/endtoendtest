@@ -34,6 +34,11 @@
   [m key new-value]
   (assoc m key new-value))
 
+(defn delete-accrual-records [trade_date]
+  (jdbc/with-db-connection [conn db-spec]
+                           (jdbc/execute! conn
+                                          ["DELETE FROM agent_lending.daily_accrual WHERE trade_date = CAST(? AS DATE)"])))
+
 (defn accrual-positions-exist [trade-date]
   (jdbc/with-db-connection [conn db-spec]
                            (let [query "SELECT COUNT(*) FROM agent_lending.daily_accrual WHERE trade_date = CAST(? AS DATE)"

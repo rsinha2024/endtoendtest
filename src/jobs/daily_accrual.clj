@@ -53,6 +53,10 @@
           (println "Inserting into config" user_id)
           (db/insert-config user_id (generate-json "FREE"))
         )
+        (when (api.accrual_db/accrual-positions-exist trade_date)
+          (println "Daily Accrual table has positions for " trade_date "Deleting!")
+          (api.accrual_db/delete-accrual-records trade_date)
+          (println "Deleted!!!"))
         (let [s3map (filegen/generate_file  trade_date )
               s3file (:file-name s3map)
               ]
@@ -83,15 +87,11 @@
 
 ;; Function to execute SQL query and compare number of rows returned to 7
 
-(defn validate [data job_id]
-  (println "Validating..." data "for job_id=" job_id)
+(defn validate [job_id]
+  (println "Validating...for job_id=" job_id)
   (Thread/sleep 10000)
 
   (client/poll-job-status job_id 20000 1000)
   )
-(defn workflow [trade_date]
-  (let [{:keys [user_id s3file data] } (setup trade_date)
-        job_id (trigger-job user_id trade_date)]
-    (validate data job_id)))
 
 
