@@ -2,9 +2,12 @@
   (:require [api.dynamodb :as dynamo]
             [clojure.test :refer [deftest is]]
             [burpless :refer [run-cucumber step]]
-            [jobs.daily_accrual :as da]
+            [jobs.monthly_accrual :as ma]
             ))
-  (def trade_date "2024-12-27")
+  (def billing_start "2024-09-01")
+  (def billing_end "2024-09-30")
+  (def billing_month "September 2024")
+
   (def steps
        [
         (step :Given "A monthly accrual file in the format BILLING_ALLOCATION_MONTHLY.yyyymmdd.hhmmss.csv"
