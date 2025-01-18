@@ -7,7 +7,7 @@
             [util.properties :as p]
             [clj-http.client :as httpclient]
             [api.client :as client]
-            [api.accrual_db :as accrualdb]
+            [api.monthly_accrual_db :as accrualdb]
             ))
 (def url (str  ( p/prop "BASE_URL") "/api/v1/monthly/accrual"))
 (def headers {"accept"       "application/json"
@@ -43,7 +43,7 @@
     (cheshire/generate-string data)))  ;; Convert the map to JSON string
 
 
-(defn setup [trade_date]
+(defn setup [billing_month billing_start billing_end]
   (let [user_id (dynamo/scan-for-user-id "FREE")]
     (if (nil? user_id)
       (println "user id is nil exitting....")
@@ -57,7 +57,7 @@
           (println "Daily Accrual table has positions for " trade_date "Deleting!")
           (api.accrual_db/delete-accrual-records trade_date)
           (println "Deleted!!!"))
-        (let [s3map (filegen/generate_file  trade_date )
+        (let [s3map (filegen/generate_file billing_month billing_start billing_end)
               s3file (:file-name s3map)
               ]
           (println "Generated file" s3file)

@@ -13,7 +13,7 @@
         (step :Given "A monthly accrual file in the format BILLING_ALLOCATION_MONTHLY.yyyymmdd.hhmmss.csv"
               (fn a_monthly_accrual_file_in_the_format_billing_allocation_monthly_yyyymmdd_hhmmss_csv [state ]
                 ;; Write code here that turns the phrase above into concrete actions
-                (throw (io.cucumber.java.PendingException.))))
+                (ma/setup billing_month billing_start billing_end)))
 
         (step :Given "Uploaded to the s3 folder  S3 bucket that stores the partners sftp files,env.drivewealth.sftp\\/freetrade\\/inbound"
               (fn uploaded_to_the_s3_folder_s3_bucket_that_stores_the_partners_sftp_files_env_drivewealth_sftp_freetrade_inbound [state ]
