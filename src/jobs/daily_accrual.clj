@@ -87,11 +87,13 @@
 
 ;; Function to execute SQL query and compare number of rows returned to 7
 
-(defn validate [job_id]
+(defn validate [job_id trade_date]
   (println "Validating...for job_id=" job_id)
   (Thread/sleep 10000)
 
   (client/poll-job-status job_id 20000 1000)
+  (when-not (api.accrual_db/accrual-positions-exist trade_date)
+    (println "Daily Accrual table has no positions for " trade_date ))
   )
 
 

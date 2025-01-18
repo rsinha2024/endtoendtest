@@ -33,11 +33,17 @@
 (defn replace-key-value
   [m key new-value]
   (assoc m key new-value))
-
+(defn insert-config [key value]
+  (jdbc/with-db-connection [conn db-spec]
+                           (jdbc/execute! conn
+                                          ["INSERT INTO agent_lending.config (name, config_value, created_at)
+                     VALUES (?, ?, CURRENT_TIMESTAMP)
+                     ON CONFLICT (name) DO NOTHING"
+                                           key value])))
 (defn delete-accrual-records [trade_date]
   (jdbc/with-db-connection [conn db-spec]
                            (jdbc/execute! conn
-                                          ["DELETE FROM agent_lending.daily_accrual WHERE trade_date = CAST(? AS DATE)"])))
+                                          ["DELETE FROM agent_lending.daily_accrual WHERE trade_date = CAST(? AS DATE)" trade_date])))
 
 (defn accrual-positions-exist [trade-date]
   (jdbc/with-db-connection [conn db-spec]

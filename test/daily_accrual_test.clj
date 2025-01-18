@@ -30,7 +30,7 @@
 
         (step :Then "The job should move the file to archive folder after successful process"
               (fn the_job_should_move_the_file_to_archive_folder_after_successful_process [state ]
-                (da/validate state)
+                (da/validate state trade_date)
                 ))])
 
   (deftest test-scenario
