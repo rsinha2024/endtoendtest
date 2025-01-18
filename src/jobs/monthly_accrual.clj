@@ -43,7 +43,7 @@
     (cheshire/generate-string data)))  ;; Convert the map to JSON string
 
 
-(defn setup [billing_month billing_start billing_end]
+(defn setup [trade_date billing_month billing_start billing_end]
   (let [user_id (dynamo/scan-for-user-id "FREE")]
     (if (nil? user_id)
       (println "user id is nil exitting....")
@@ -53,11 +53,11 @@
           (println "Inserting into config" user_id)
           (db/insert-config user_id (generate-json "FREE"))
         )
-        (when (api.accrual_db/accrual-positions-exist trade_date)
+        (when (accrualdb/accrual-positions-exist trade_date)
           (println "Daily Accrual table has positions for " trade_date "Deleting!")
-          (api.accrual_db/delete-accrual-records trade_date)
+          (accrualdb/delete-accrual-records trade_date)
           (println "Deleted!!!"))
-        (let [s3map (filegen/generate_file billing_month billing_start billing_end)
+        (let [s3map (filegen/generate_file trade_date billing_month billing_start billing_end)
               s3file (:file-name s3map)
               ]
           (println "Generated file" s3file)
@@ -92,7 +92,7 @@
   (Thread/sleep 10000)
 
   (client/poll-job-status job_id 20000 1000)
-  (when-not (api.accrual_db/accrual-positions-exist trade_date)
+  (when-not (accrualdb/accrual-positions-exist trade_date)
     (println "Daily Accrual table has no positions for " trade_date ))
   )
 
