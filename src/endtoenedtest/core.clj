@@ -11,6 +11,8 @@
             [jobs.sgupload :as sgupload]
             [file.generator.trade-continous-map :as sgdownloadgen]
             [file.generator.daily-accrual :as dafilegen]
+            [api.sftp_client :as sftp]
+            [clojure.java.io :as io]
             )
   (:gen-class))
 
@@ -19,6 +21,9 @@
   "EndtoEnd tests."
   [& args]
   (println "End to end started!")
+  ;(println (resolve 'org.apache.sshd.client.SSHClient))
+
+  (sftp/upload_file)
   ;(dafilegen/generate_file "2024-12-27")
   ;(sgupload_db/delete-sample-records)
   ;(sgupload_db/insert-sample-records "07baca37-5612-4ec6-ae8d-a03f12bd3ff53232" "2024-12-27" )
