@@ -19,7 +19,7 @@
                  [net.clojars.danielmiladinov/burpless "0.1.0"] ;; Add Burpless dependency
                  [org.apache.poi/poi-ooxml "5.2.3"]
                  [org.clojure/data.csv "1.0.0"]
-
+                 [org.apache.sshd/sshd-sftp "2.7.0"]
                  ]
 
   :test-paths ["test"]
