@@ -22,6 +22,8 @@
   [& args]
   (println "End to end started!")
   ;(println (resolve 'org.apache.sshd.client.SSHClient))
+  (System/setProperty "com.jcraft.jsch.logger" "com.jcraft.jsch.Logger$ConsoleLogger")
+  (System/setProperty "com.jcraft.jsch.level" "DEBUG")
 
   (sftp/upload_file)
   ;(dafilegen/generate_file "2024-12-27")
