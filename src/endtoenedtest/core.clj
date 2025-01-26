@@ -13,6 +13,7 @@
             [file.generator.daily-accrual :as dafilegen]
             [api.sftp_client :as sftp]
             [clojure.java.io :as io]
+            [jobs.aneticsdownload_job :as aneticsdownloadjob]
             )
   (:gen-class))
 
@@ -21,11 +22,9 @@
   "EndtoEnd tests."
   [& args]
   (println "End to end started!")
+  (aneticsdownloadjob/workflow "2025-01-20")
   ;(println (resolve 'org.apache.sshd.client.SSHClient))
-  (System/setProperty "com.jcraft.jsch.logger" "com.jcraft.jsch.Logger$ConsoleLogger")
-  (System/setProperty "com.jcraft.jsch.level" "DEBUG")
-
-  (sftp/upload_file)
+  ;(sftp/upload_file)
   ;(dafilegen/generate_file "2024-12-27")
   ;(sgupload_db/delete-sample-records)
   ;(sgupload_db/insert-sample-records "07baca37-5612-4ec6-ae8d-a03f12bd3ff53232" "2024-12-27" )
