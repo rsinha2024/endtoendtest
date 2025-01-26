@@ -1,9 +1,7 @@
 (ns jobs.loanet_import_file
-  (:require [api.dynamodb :as dynamo]
+  (:require [cheshire.core :as cheshire]
             [api.db :as db]
-            [cheshire.core :as cheshire]
-            [file.generator.daily-accrual :as filegen]
-            [api.s3 :as s3]
+            [api.dynamodb :as dynamo]
             [util.properties :as p]
             [clj-http.client :as httpclient]
             [api.client :as client]
@@ -44,7 +42,18 @@
 
 
 (defn setup [trade_date]
-  )
+  (let [user_id (dynamo/scan-for-user-id "FREE")]
+    (if (nil? user_id)
+      (println "user id is nil exitting....")
+      (do
+        (println "In setup" user_id)
+        (when-not (db/key-exists? user_id)
+          (println "Inserting into config" user_id)
+          (db/insert-config user_id (generate-json "FREE"))
+          )
+
+        { :user_id user_id
+         }))))
 
 
 (defn trigger-job [trade_date]
@@ -63,4 +72,7 @@
     (println "Loanett table has no positions for " trade_date ))
   )
 
-
+(defn workflow [trade_date]
+  (let [{:keys [user_id] } (setup trade_date)
+        job_id (trigger-job trade_date)]
+    (validate job_id trade_date)))
