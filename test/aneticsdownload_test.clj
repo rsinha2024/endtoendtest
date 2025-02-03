@@ -10,15 +10,17 @@
 
         (step :Given "Records in the database api"
               (fn records_in_the_database_api [state ]
-                ;; Write code here that turns the phrase above into concrete actions
+
                 (adj/setup trade_date)
                 ))
 
         (step :Then "Update them based on Anetics response"
               (fn update_them_based_on_anetics_response [state ]
-                ;; Write code here that turns the phrase above into concrete actions
-                (adj/trigger-job trade_date state)
-                ))
+                (let [{:keys [user_id s3file data] } state
+                      ]
+                  (println "Triggering Anetics Download API job")
+                (adj/trigger-job trade_date user_id)
+                )))
 
         ])
 

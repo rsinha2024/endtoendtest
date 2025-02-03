@@ -59,9 +59,10 @@
 
 
 
-(defn trigger-job [user_id trade_date]
+(defn trigger-job [trade_date user_id]
   (let [body {:partners [user_id]
               :tradeDate trade_date}]
+     (println "Triggering job with" user_id trade_date body)
      (process-trade body)
     ))
 
