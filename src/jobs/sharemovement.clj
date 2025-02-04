@@ -8,7 +8,7 @@
             [clj-http.client :as httpclient]
             [clojure.java.jdbc :as jdbc]
             ))
-(def url (str  ( p/prop "BASE_URL") "/api/v1/outbound/files/process"))
+(def url (str  ( p/prop "BASE_URL") "/api/v1/eod/share-movement"))
 (def headers {"accept"       "application/json"
               "Content-Type" "application/json"})
 
