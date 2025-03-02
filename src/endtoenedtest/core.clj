@@ -22,7 +22,8 @@
   "EndtoEnd tests."
   [& args]
   (println "End to end started!")
-  (aneticsdownloadjob/workflow "2025-01-20")
+  (println "s3" (s3/move-s3-files-to-archive "dev.drivewealth.aod" "20250301/ICLEAR_S3/" "20250301/ICLEAR_S3/archive/"))
+  ; (aneticsdownloadjob/workflow "2025-01-20")
   ;(println (resolve 'org.apache.sshd.client.SSHClient))
   ;(sftp/upload_file)
   ;(dafilegen/generate_file "2024-12-27")
