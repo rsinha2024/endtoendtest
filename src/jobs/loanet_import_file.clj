@@ -47,6 +47,7 @@
       (println "user id is nil exitting....")
       (do
         (println "In setup" user_id)
+        (loanetdb/delete-loanet-records trade_date)
         (when-not (db/key-exists? user_id)
           (println "Inserting into config" user_id)
           (db/insert-config user_id (generate-json "FREE"))
@@ -70,7 +71,10 @@
   (client/poll-job-status job_id 20000 1000)
   (when-not (loanetdb/loanet-records-exist trade_date)
     (println "Loanett table has no positions for " trade_date ))
+  (when (loanetdb/loanet-records-exist trade_date)
+    (println "Loanett table has positions for " trade_date ))
   )
+
 
 (defn workflow [trade_date]
   (let [{:keys [user_id] } (setup trade_date)

@@ -4,7 +4,7 @@
             [burpless :refer [run-cucumber step]]
             [jobs.loanet_import_file :as lif]
             ))
-  (def trade_date "2024-12-27")
+  (def trade_date "2024-10-23")
   (def steps
        [(step :Given "Loanet file pao3360 in sftp server folder \\/LOANET\\/EOD"
               (fn loanet_file_pao3360_in_sftp_server_folder_loanet_eod [state ]

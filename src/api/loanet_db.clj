@@ -25,6 +25,6 @@
                            (let [query "SELECT COUNT(*) FROM agent_lending.loanet_open_loans WHERE trade_date = CAST(? AS DATE)"
                                  result (jdbc/query conn [query trade-date])
                                  ]
-                               (>  (:count (first result))  1))
+                               (>  (:count (first result))  0))
                                          ))
 
