@@ -9,9 +9,10 @@
 (def steps
        [
         (step :Given "Default location of the incoming file is $bucket\\/$wlp\\/inbound, can be overwritten using a config table"
-              (fn default_location_of_the_incoming_file_is_$bucket_$wlp_inbound_can_be_overwritten_using_a_config_table [state ]
+              (fn default_location_of_the_incoming_file_is_$bucket_$wlp_inbound_can_be_overwritten_using_a_config_table [state]
                 ;; Write code here that turns the phrase above into concrete actions
-                (sgdownload/setup trade_date )))
+                ; (sgdownload/setup trade_date )
+                ))
 
         (step :Then "Upload the processed data into the postgres database \\(agent_loan_requests)"
               (fn upload_the_processed_data_into_the_postgres_database_agent_loan_requests [state ]
@@ -19,7 +20,7 @@
                 (let [{:keys [user_id ] } state
                       ]
                   (println "Triggering Patner download job" "user id=" user_id)
-                  (sgdownload/trigger-job user_id trade_date)
+                  (sgdownload/workflow trade_date)
                   )))
 
         (step :Then "Move the file to archive folder once processed"
@@ -28,9 +29,10 @@
                 state))
 
         (step :Then "Track the files received and processing. \\(agent_load_file_tracking)"
-              (fn track_the_files_received_and_processing_agent_load_file_tracking [state ]
+              (fn track_the_files_received_and_processing_agent_load_file_tracking [state]
                 ;; Write code here that turns the phrase above into concrete actions
-                (sgdownload/validate state trade_date)))
+                ;  (sgdownload/validate state trade_date)
+                ))
 
         ])
 
