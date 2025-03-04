@@ -20,6 +20,8 @@
                  [org.apache.poi/poi-ooxml "5.2.3"]
                  [org.clojure/data.csv "1.0.0"]
                  [com.jcraft/jsch "0.1.55"]  ;; JSCH dependency for SFTP/SSH
+                 ;; ;; https://mvnrepository.com/artifact/lein-difftest/lein-difftest
+                 [lein-difftest/lein-difftest "1.3.8"]
                  ]
 
   :test-paths ["test"]
