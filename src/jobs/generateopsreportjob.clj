@@ -1,7 +1,5 @@
-;https://drivewealth.atlassian.net/browse/SHAR-16
-; ;https://github.com/DriveWealth/inteliclear_sql/blob/master/get_eod_pos_bal_agent_lending_sp.sql
-; ;https://github.com/DriveWealth/inteliclear_sql/blob/f41aabd1f322802008bca76384f0e95386bc3c5c/icbc_csv.sql#L320sgpositionsjob.clj
-(ns jobs.sgpositionsjob
+;https://drivewealth.atlassian.net/browse/SHAR-18
+(ns jobs.generateopsreportjob
   (:require [api.dynamodb :as dynamo]
             [cheshire.core :as cheshire]
             [api.s3 :as s3]
@@ -10,7 +8,7 @@
             [clj-http.client :as httpclient]
             [clojure.java.jdbc :as jdbc]
             ))
-(def url (str  ( p/prop "BASE_URL") "/api/v1/sod/positions"))
+(def url (str  ( p/prop "BASE_URL") "/api/v1/opts/do-report"))
 (def headers {"accept"       "application/json"
               "Content-Type" "application/json"})
 
