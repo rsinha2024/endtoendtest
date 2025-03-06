@@ -19,7 +19,7 @@
                 ;; Write code here that turns the phrase above into concrete actions
                 (let [{:keys [user_id ] } state
                       ]
-                  (println "Triggering Patner download job" "user id=" user_id)
+                  (println "Triggering Partner download job" "user id=" user_id)
                   (sgdownload/workflow trade_date)
                   )))
 
@@ -35,6 +35,16 @@
                 ))
 
         ])
+(step :Given "A bad request to SG download job and missing partner field"
+      (fn a_bad_request_to_sg_download_job_and_missing_partner_field [state ]
+        ;; Write code here that turns the phrase above into concrete actions
+        (throw (io.cucumber.java.PendingException.))))
+
+(step :Then "The job should fail"
+      (fn the_job_should_fail [state ]
+        ;; Write code here that turns the phrase above into concrete actions
+        (throw (io.cucumber.java.PendingException.))))
+
 
   (deftest test-scenario
            (is (zero? (run-cucumber "test/features/sgdownload.feature" steps))))
