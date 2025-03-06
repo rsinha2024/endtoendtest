@@ -1,6 +1,7 @@
 (ns sharemovement_test
   (:require [api.dynamodb :as dynamo]
             [api.s3 :as s3]
+            [util.properties :as p]
             [jobs.sharemovement :as sharemovement]
             [clojure.test :refer [deftest is]]
             [burpless :refer [run-cucumber step]]
@@ -29,11 +30,11 @@
               (fn file_name_should_be_in_format_eg_drvw_inte_transactions_ordertrans_lending_txt [state]
                 (println "Verifying output")
                 (Thread/sleep 3000)
-                (let [objectsummary (s3/list-s3-files "dev.drivewealth.aod" "20250301/ICLEAR_S3/")
+                (let [objectsummary (s3/list-s3-files (p/prop "AOD_BUCKET_NAME") "20250301/ICLEAR_S3/")
                       outfiles (map :key objectsummary)]
                   (println "outfile=" outfiles)
                   (doseq [outfile outfiles]
-                                 (s3/get-file-by-prefix "dev.drivewealth.aod" outfile)
+                                 (s3/get-file-by-prefix (p/prop "AOD_BUCKET_NAME") outfile)
                                  )
 
                   )
