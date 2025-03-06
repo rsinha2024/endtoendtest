@@ -10,7 +10,7 @@
   [bucket-name file-path key]
   (let [file (io/resource file-path)]   ;; Accessing the file from resources
     (when file
-      (println "In s3 uploading file")
+      (println "In s3 uploading file" file-path key bucket-name)
       (s3/put-object :bucket-name bucket-name
                      :key key
                      :file (io/file file)))))  ;; Convert URL to File

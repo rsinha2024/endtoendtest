@@ -14,7 +14,7 @@
   (.getProperty props key))
 
 ;; Usage:
-(def properties (load-properties "resources/config.properties"))
+(def properties (load-properties "resources/uat.config.properties"))
 (defn prop [name]
   (get-property properties name))
 
