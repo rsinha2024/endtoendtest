@@ -26,6 +26,15 @@ d)Locally
 Edit src/util/properties.clj and change line 17 as follows
 (def properties (load-properties "resources/config.properties"))
 
+To create a new test do the following
+1)Create a new Gherkin feature file under test/features.
+2)Copy one of the *.clj test files under test and rename it 
+  In the last line change the "*.feature" reference to point to your own
+3)remove all code between the square brackets in the def steps [] section
+4)Execute it from the IDE
+5)The cucumber/burpless plugin will generate the steps cprresponding to the 
+ gherkin file
+6)Implement the steps!
 
 
 
