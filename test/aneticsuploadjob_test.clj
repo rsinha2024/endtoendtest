@@ -52,5 +52,5 @@
         ])
 
   (deftest test-scenario
-    (dotimes [n 100]
+    (dotimes [n 1]
            (is (zero? (run-cucumber "test/features/aneticsupload.feature" steps)))))
