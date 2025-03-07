@@ -93,7 +93,7 @@
 
   (client/poll-job-status job_id 20000 1000)
   (when-not (accrualdb/accrual-positions-exist trade_date)
-    (println "Daily Accrual table has no positions for " trade_date ))
+    (println "monthly Accrual table has no positions for " trade_date ))
   )
 
 
