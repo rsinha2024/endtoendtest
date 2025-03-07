@@ -14,8 +14,8 @@ jobs:
     steps:
     - name: Install Leiningen
       run: curl https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein > lein
-           chmod +x lein
-           sudo mv lein /usr/local/bin/
+      run: chmod +x lein
+      run: sudo mv lein /usr/local/bin/
     - uses: actions/checkout@v4
     - name: Install dependencies
       run: lein deps
