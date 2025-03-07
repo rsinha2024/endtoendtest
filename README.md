@@ -1,4 +1,4 @@
 # endtoenedtest
 
-Envornment config is config.properties
+Environment config is config.properties
 
